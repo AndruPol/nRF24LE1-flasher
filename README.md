@@ -10,22 +10,23 @@ USB To RS232 TTL UART PL2303
 
 STM32F4DISCOVERY  |nRF24LE1 (QFN32)
 ------------------|-----------------
-SIGNAL	|PIN      |PIN     
---------|---------|-------
+SIGNAL  |PIN      |PIN     
+--------|---------|-----------------
 SCK     |PA05	  |P0.5   
 MISO	|PA06     |P1.0   
 MOSI    |PA07     |P0.7   
 NSS     |PE15     |P1.1   
 PROG    |PB04     |PROG   
 RESET   |PB05     |RESET  
-        |         |       
+--------|---------|-----------------
 VDD     |3V       |VDD    
 GND     |GND      |GND			
+--------|---------|-----------------
 
 STM32F4DISCOVERY  | PL2303HX (38400/8/N/1)
 ------------------|------------------------
 SIGNAL	|PIN      |PIN
---------|---------|-------
+--------|---------|------------------------
 TX      |PD05     |RX
 RX      |PD06     |TX
 GND     |GND      |GND
