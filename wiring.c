@@ -63,7 +63,7 @@ void wiring_init(void) {
 	palClearPad(GPIOB, WIRING_NRF_PROG_PIN);
 	palSetPad(GPIOB, WIRING_NRF_RESET_PIN);
 
-	palSetPadMode(GPIOE, GPIOE_PIN15, PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);	// NSS	PC06 -> P1.1
+	palSetPadMode(GPIOE, GPIOE_PIN15, PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);	// NSS	PE15 -> P1.1
 	palSetPad(GPIOE, GPIOE_PIN15);
 
 	spiStart(&spip, &spicfg);	      /* Setup transfer parameters.       */

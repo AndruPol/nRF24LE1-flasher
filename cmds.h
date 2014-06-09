@@ -14,7 +14,6 @@ extern "C" {
 #include "shell.h"
 
 void cmd_mem(BaseSequentialStream *chp, int argc, char *argv[]);
-void cmd_threads(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_xmread(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_xmsend(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[]);
@@ -24,11 +23,10 @@ void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]);
 
 static const ShellCommand commands[] = {
   {"mem", cmd_mem},
-  {"threads", cmd_threads},
+  {"test", cmd_test},
+  {"dump", cmd_dump},
   {"xmread", cmd_xmread},
   {"xmsend", cmd_xmsend},
-  {"dump", cmd_dump},
-  {"test", cmd_test},
   {"write", cmd_write},
   {"read", cmd_read},
   {NULL, NULL}

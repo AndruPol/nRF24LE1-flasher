@@ -38,31 +38,7 @@ void cmd_mem(BaseSequentialStream *chp, int argc, char *argv[]) {
 }
 
 /*
- * cmd threads
-*/
-void cmd_threads(BaseSequentialStream *chp, int argc, char *argv[]) {
-  static const char *states[] = {THD_STATE_NAMES};
-  Thread *tp;
-
-  (void)argv;
-  if (argc > 0) {
-    chprintf(chp, "Usage: threads\r\n");
-    return;
-  }
-  chprintf(chp, "name          addr    stack prio refs     state time\r\n");
-  tp = chRegFirstThread();
-  do {
-    chprintf(chp, "%-10s%.8lx %.8lx %4lu %4lu %9s %lu\r\n",
-            tp->p_name,
-            (uint32_t)tp, (uint32_t)tp->p_ctx.r13,
-            (uint32_t)tp->p_prio, (uint32_t)(tp->p_refs - 1),
-            states[tp->p_state], (uint32_t)tp->p_time);
-    tp = chRegNextThread(tp);
-  } while (tp != NULL);
-}
-
-/*
- * cmd xmrecv - receive flash buffer from PC
+ * cmd xmread - receive flash buffer from PC
 */
 void cmd_xmread(BaseSequentialStream *chp, int argc, char *argv[]) {
 	(void)argv;
