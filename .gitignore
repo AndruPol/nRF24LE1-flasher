@@ -1,0 +1,9 @@
+.dep
+.settings
+.cproject
+.project
+build/lst
+build/obj
+build/nrf24le1-flasher.hex
+build/nrf24le1-flasher.dmp
+build/nrf24le1-flasher.map

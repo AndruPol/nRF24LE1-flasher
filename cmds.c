@@ -1,0 +1,188 @@
+/*
+ * cmds.c
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "ch.h"
+#include "hal.h"
+
+#include "shell.h"
+#include "chprintf.h"
+
+#include "main.h"
+#include "xmodem.h"
+#include "nrf24le1.h"
+
+/*
+ * command functions start here
+*/
+
+/*
+ * cmd mem
+*/
+void cmd_mem(BaseSequentialStream *chp, int argc, char *argv[]) {
+	size_t n, size;
+
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: mem\r\n");
+		return;
+	}
+	n = chHeapStatus(NULL, &size);
+	chprintf(chp, "core free memory : %u bytes\r\n", chCoreStatus());
+	chprintf(chp, "heap fragments   : %u\r\n", n);
+	chprintf(chp, "heap free total  : %u bytes\r\n", size);
+}
+
+/*
+ * cmd threads
+*/
+void cmd_threads(BaseSequentialStream *chp, int argc, char *argv[]) {
+  static const char *states[] = {THD_STATE_NAMES};
+  Thread *tp;
+
+  (void)argv;
+  if (argc > 0) {
+    chprintf(chp, "Usage: threads\r\n");
+    return;
+  }
+  chprintf(chp, "name          addr    stack prio refs     state time\r\n");
+  tp = chRegFirstThread();
+  do {
+    chprintf(chp, "%-10s%.8lx %.8lx %4lu %4lu %9s %lu\r\n",
+            tp->p_name,
+            (uint32_t)tp, (uint32_t)tp->p_ctx.r13,
+            (uint32_t)tp->p_prio, (uint32_t)(tp->p_refs - 1),
+            states[tp->p_state], (uint32_t)tp->p_time);
+    tp = chRegNextThread(tp);
+  } while (tp != NULL);
+}
+
+/*
+ * cmd xmrecv - receive flash buffer from PC
+*/
+void cmd_xmread(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 1) {
+		chprintf(chp, "Usage: xmread [size]\r\n");
+		return;
+	}
+
+	unsigned int size = FLASHSIZE;
+	if (argc == 1) {
+		size = (atoi(argv[0]) > FLASHSIZE ? FLASHSIZE : atoi(argv[0]));
+	}
+
+	memset(&flash_buffer, 0, FLASHSIZE);
+
+	xmodem_t *xm_p = &xmodem;
+	xmodem.size = size;
+	chprintf((BaseSequentialStream *)&CON,"Send data using the xmodem protocol from your terminal emulator now...\r\n");
+
+	chMsgSend(xReceiveThread_p, (msg_t) xm_p);
+	shellExit(RDY_OK);
+}
+
+/*
+ * cmd xmsend - transmit flash buffer to PC
+*/
+void cmd_xmsend(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 1) {
+		chprintf(chp, "Usage: xmsend [size]\r\n");
+		return;
+	}
+
+	unsigned int size = FLASHSIZE;
+	if (argc == 1) {
+		size = (atoi(argv[0]) > FLASHSIZE ? FLASHSIZE : atoi(argv[0]));
+	}
+
+	xmodem_t *xm_p = &xmodem;
+	xmodem.size = size;
+
+	chprintf((BaseSequentialStream *)&CON,"Prepare your terminal emulator to receive data now...\r\n");
+
+	chMsgSend(xTransmitThread_p, (msg_t) xm_p);
+	shellExit(RDY_OK);
+}
+
+/*
+ * cmd dump flash buffer
+*/
+void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 1) {
+		chprintf(chp, "Usage: dump [size]\r\n");
+		return;
+	}
+
+	unsigned int size = FLASHSIZE;
+	if (argc == 1) {
+		size = (atoi(argv[0]) > FLASHSIZE ? FLASHSIZE : atoi(argv[0]));
+	}
+
+	char *p = flash_buffer;
+	unsigned int i=0;
+	while (i<size) {
+		chprintf((BaseSequentialStream *)&CON,"0x%.04X %.02X %.02X %.02X %02X  %.02X %.02X %.02X %.02X   %.02X %.02X %.02X %.02X  %.02X %.02X %.02X %.02X\r\n", i,
+				(char) *p,     (char) *(p+1), (char) *(p+2), (char) *(p+3),
+				(char) *(p+4), (char) *(p+5), (char) *(p+6), (char) *(p+7),
+				(char) *(p+8), (char) *(p+9), (char) *(p+10), (char) *(p+11),
+				(char) *(p+12), (char) *(p+13), (char) *(p+14), (char) *(p+15));
+		i = i+16;
+		p = p+16;
+	}
+}
+
+/*
+ * cmd test
+*/
+void cmd_test(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: test\r\n");
+		return;
+	}
+	enable_program(1);
+	da_test_show();
+	enable_program(0);
+
+}
+
+/*
+ * cmd write
+*/
+void cmd_write(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: write\r\n");
+		return;
+	}
+
+	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	enable_program(1);
+	uhet_write(flash_buffer, FLASHSIZE);
+	enable_program(0);
+	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
+
+}
+/*
+ * cmd read
+*/
+void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: read\r\n");
+		return;
+	}
+
+	memset(flash_buffer, 0x0, FLASHSIZE);
+	enable_program(1);
+	uhet_read(flash_buffer, FLASHSIZE);
+	enable_program(0);
+
+}
