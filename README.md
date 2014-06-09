@@ -1,4 +1,4 @@
-> nRF24LE1 flash writer/programmer
+### nRF24LE1 flash writer/programmer
 
 A simple command-line interface with Nordic nRF24LE1 using STM32F4DISCOVERY board 
 
@@ -8,27 +8,27 @@ nRF24LE1 QFN32 (5×5 mm) - http://www.ebay.com/itm/310888537660?ssPageName=STRK:
 
 USB To RS232 TTL UART PL2303
 
-STM32F4DISCOVERY	nRF24LE1 (QFN32)
-
-SIGNAL	|PIN			|PIN     
+STM32F4DISCOVERY  |nRF24LE1 (QFN32)
+------------------|-----------------
+SIGNAL	|PIN      |PIN     
 --------|---------|-------
-SCK		  |PA05		  |P0.5   
-MISO	  |PA06 		|P1.0   
-MOSI	  |PA07 		|P0.7   
-NSS		  |PE15 		|P1.1   
-PROG	  |PB04 		|PROG   
-RESET	  |PB05 		|RESET  
+SCK     |PA05	  |P0.5   
+MISO	|PA06     |P1.0   
+MOSI    |PA07     |P0.7   
+NSS     |PE15     |P1.1   
+PROG    |PB04     |PROG   
+RESET   |PB05     |RESET  
         |         |       
-VDD		  |3V			  |VDD    
-GND		  |GND			|GND			
+VDD     |3V       |VDD    
+GND     |GND      |GND			
 
-STM32F4DISCOVERY	PL2303HX (38400/8/N/1)
-
-SIGNAL	|PIN			|PIN
+STM32F4DISCOVERY  | PL2303HX (38400/8/N/1)
+------------------|------------------------
+SIGNAL	|PIN      |PIN
 --------|---------|-------
-TX		  |PD05		  |RX
-RX		  |PD06		  |TX
-GND		  |GND			|GND
+TX      |PD05     |RX
+RX      |PD06     |TX
+GND     |GND      |GND
 
 commands:
 
