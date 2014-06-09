@@ -8,9 +8,8 @@ nRF24LE1 QFN32 (5×5 mm) - http://www.ebay.com/itm/310888537660?ssPageName=STRK:
 
 USB To RS232 TTL UART PL2303
 
-SIGNAL  |STM32F4- |nRF24LE1 (QFN32)
+SIGNAL  |STM32F4  |nRF24LE1 (QFN32)
         |DISCOVERY|
-        |PIN      |PIN     
 --------|---------|-----------------
 SCK     |PA05     |P0.5   
 MISO    |PA06     |P1.0   
@@ -23,9 +22,8 @@ VDD     |3V       |VDD
 GND     |GND      |GND			
 --------|---------|-----------------
 
-SIGNAL  |STM32F4- |PL2303HX (38400/8/N/1)
+SIGNAL  |STM32F4  |PL2303HX (38400/8/N/1)
         |DISCOVERY|
-        |PIN      |PIN
 --------|---------|------------------------
 TX      |PD05     |RX
 RX      |PD06     |TX
