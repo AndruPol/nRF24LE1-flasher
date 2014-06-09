@@ -7,7 +7,7 @@ based on nrf24le1-libbcm2835 https://github.com/derekstavis/nrf24le1-libbcm2835
 nRF24LE1 QFN32 (5×5 mm) - http://www.ebay.com/itm/310888537660?ssPageName=STRK:MEWNX:IT&_trksid=p3984.m1497.l2649
 
 USB To RS232 TTL UART PL2303
-
+```
 SIGNAL  |STM32F4  |nRF24LE1 (QFN32)
         |DISCOVERY|
 --------|---------|-----------------
@@ -28,6 +28,7 @@ SIGNAL  |STM32F4  |PL2303HX (38400/8/N/1)
 TX      |PD05     |RX
 RX      |PD06     |TX
 GND     |GND      |GND
+```
 
 commands:
 
