@@ -77,18 +77,18 @@ int main(void) {
 			chBSemWait(&transsem);
 			if (xmodem.state == XMODEM_RECEIVE) {
 				if (xmodem.error == XMODEM_RECEIVE_ERROR) {
-					chprintf((BaseSequentialStream *)&CON,"Xmodem receive error: status: %d\r\n", xmodem.status);
+					chprintf((BaseSequentialStream *)&CON,"\r\nXmodem receive error: status: %d\r\n", xmodem.status);
 				}
 				else {
-					chprintf((BaseSequentialStream *)&CON,"Xmodem successfully received %d bytes\r\n", xmodem.status);
+					chprintf((BaseSequentialStream *)&CON,"\r\nXmodem successfully received %d bytes\r\n", xmodem.status);
 				}
 				xmodem.state = XMODEM_IDLE;
 			}
 			if (xmodem.state == XMODEM_TRANSMIT) {
 				if (xmodem.error == XMODEM_TRANSMIT_ERROR)
-					chprintf((BaseSequentialStream *)&CON,"Xmodem transmit error: status: %d\r\n", xmodem.status);
+					chprintf((BaseSequentialStream *)&CON,"\r\nXmodem transmit error: status: %d\r\n", xmodem.status);
 				else
-					chprintf((BaseSequentialStream *)&CON,"Xmodem successfully transmitted %d bytes\r\n", xmodem.status);
+					chprintf((BaseSequentialStream *)&CON,"\r\nXmodem successfully transmitted %d bytes\r\n", xmodem.status);
 				xmodem.state = XMODEM_IDLE;
 			}
 			shelltp = shellCreate(&shell_cfg, SHELL_WA_SIZE, SHELL_PRIO);

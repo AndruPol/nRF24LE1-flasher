@@ -66,3 +66,8 @@ xmsend [size] - transmit flash buffer to PC via xmodem, size <= 16384, default 1
 write	- write flash buffer into nRF24LE1 flash
 
 read	- read nRF24LE1 flash into flash buffer
+
+nvwrite - write flash 1024 bytes buffer into nRF24LE1 NVM data
+
+nvread	- read nRF24LE1 1024 bytes NVM data into flash buffer
+ 

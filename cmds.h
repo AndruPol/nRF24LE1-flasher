@@ -20,6 +20,8 @@ void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_test(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_write(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_nvwrite(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_nvread(BaseSequentialStream *chp, int argc, char *argv[]);
 
 static const ShellCommand commands[] = {
   {"mem", cmd_mem},
@@ -29,6 +31,8 @@ static const ShellCommand commands[] = {
   {"xmsend", cmd_xmsend},
   {"write", cmd_write},
   {"read", cmd_read},
+  {"nvwrite", cmd_nvwrite},
+  {"nvread", cmd_nvread},
   {NULL, NULL}
 };
 

@@ -17,6 +17,8 @@
 }
 
 #define NAME "nrf24le1"
+#define htons(a)	((((a)>>8)&0xff)|(((a)<<8)&0xff00))
+//#define htons(a)	(a)
 
 void uhet_record_init(void);
 void uhet_record_end(void);
@@ -595,7 +597,7 @@ void _erase_program_pages(void) {
 ssize_t uhet_write(char *buf, size_t count) {
 	unsigned long ret;
 	uint8_t cmd[3 + NRF_PAGE_SIZE];
-	uint8_t  i =0, k = 0;
+	uint8_t  i =0;//, k = 0;
 	uint16_t addr = 0;
 
 	if (0 == _enable_program) {
@@ -623,7 +625,7 @@ ssize_t uhet_write(char *buf, size_t count) {
 		chprintf((BaseSequentialStream *)&CON, "ADDR: %02X %02X\r\n",((addr & 0xff00) >> 8), (addr & 0x00ff));
 		memcpy(cmd + 3, &buf[addr], NRF_PAGE_SIZE);
 
-		if(!__enable_wren()) return;
+		if(!__enable_wren()) return 0;
 
 		chprintf((BaseSequentialStream *)&CON, "b0:%02X    b1:%02X   b2: %02X\r\n",cmd[0], cmd[2], cmd[1]);
 		write_then_read(cmd, 3 + NRF_PAGE_SIZE, NULL, 0);
@@ -649,7 +651,6 @@ ssize_t uhet_read(char* buf, size_t count) {
 		uint8_t *byte;
 		uint16_t *addr = (uint16_t *) (cmd + 1);
 		//uint8_t data[count];
-		int i;
 
 		cmd[0] = SPICMD_READ;
 		cmd[1] = 0;

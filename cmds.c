@@ -162,3 +162,37 @@ void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]) {
 	enable_program(0);
 
 }
+
+/*
+ * cmd nvwrite
+*/
+void cmd_nvwrite(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: nvwrite\r\n");
+		return;
+	}
+
+	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	enable_program(1);
+	da_nvm_normal_store(flash_buffer, NVMSIZE);
+	enable_program(0);
+	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
+
+}
+/*
+ * cmd nvread
+*/
+void cmd_nvread(BaseSequentialStream *chp, int argc, char *argv[]) {
+	(void)argv;
+	if (argc > 0) {
+		chprintf(chp, "Usage: nvread\r\n");
+		return;
+	}
+
+	memset(flash_buffer, 0x0, FLASHSIZE);
+	enable_program(1);
+	da_nvm_normal_show(flash_buffer);
+	enable_program(0);
+
+}

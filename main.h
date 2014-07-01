@@ -11,6 +11,7 @@ extern "C" {
 #define	FIRMWARE		"0.1"
 
 #define FLASHSIZE		16384
+#define NVMSIZE			1024
 extern char flash_buffer[FLASHSIZE];
 
 #define BOARDLED_GPIO	GPIOD

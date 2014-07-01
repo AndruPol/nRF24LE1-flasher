@@ -104,11 +104,11 @@ uint8_t wiring_write_then_read(uint8_t* out, uint16_t out_len, uint8_t* in, uint
 		spi_exchange(txbuf, rxbuf, n+1);
 		if (NULL != in)
 			memcpy(in, rxbuf+out_len, in_len);
-		ret = out_len+in_len;
+//		ret = out_len+in_len;
 	}
 	else {
 		spi_send(out, out_len);
-		ret = out_len;
+//		ret = out_len;
 	}
 //	bcm2835_spi_transfern(transfer_buf, ret);
 
