@@ -107,8 +107,9 @@ void cmd_dump(BaseSequentialStream *chp, int argc, char *argv[]) {
 		chprintf((BaseSequentialStream *)&CON,"0x%.04X %.02X %.02X %.02X %02X  %.02X %.02X %.02X %.02X   %.02X %.02X %.02X %.02X  %.02X %.02X %.02X %.02X\r\n", i,
 				(char) *p,     (char) *(p+1), (char) *(p+2), (char) *(p+3),
 				(char) *(p+4), (char) *(p+5), (char) *(p+6), (char) *(p+7),
-				(char) *(p+8), (char) *(p+9), (char) *(p+10), (char) *(p+11),
-				(char) *(p+12), (char) *(p+13), (char) *(p+14), (char) *(p+15));
+				(char) *(p+8), (char) *(p+9), (char) *(p+10),(char) *(p+11),
+				(char) *(p+12),(char) *(p+13),(char) *(p+14),(char) *(p+15)
+				);
 		i = i+16;
 		p = p+16;
 	}

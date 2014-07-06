@@ -96,12 +96,12 @@ uint8_t wiring_write_then_read(uint8_t* out, uint16_t out_len, uint8_t* in, uint
 */
 	if (NULL != in) {
 		uint16_t n = (out_len >= in_len ? out_len : in_len);
-		uint8_t txbuf[n+1];
-		uint8_t rxbuf[n+1];
-		memset(txbuf, 0, n+1);
+		uint8_t txbuf[n+out_len];
+		uint8_t rxbuf[n+out_len];
+		memset(txbuf, 0, n+out_len);
 		if (NULL != out)
 			memcpy(txbuf, out, out_len);
-		spi_exchange(txbuf, rxbuf, n+1);
+		spi_exchange(txbuf, rxbuf, n+out_len);
 		if (NULL != in)
 			memcpy(in, rxbuf+out_len, in_len);
 //		ret = out_len+in_len;
