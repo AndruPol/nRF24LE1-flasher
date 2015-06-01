@@ -71,3 +71,8 @@ nvwrite - write flash 1024 bytes buffer into nRF24LE1 NVM data
 
 nvread	- read nRF24LE1 1024 bytes NVM data into flash buffer
  
+ipread	- read nRF24LE1 512 bytes infopage data into flash buffer
+
+ipwrite - write flash buffer 512 bytes into nRF24LE1 infopage
+
+erase_all - ERASE ALL nRF24LE1 flash data, NVM and infopage (at your own risk)

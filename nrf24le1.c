@@ -219,7 +219,17 @@ ssize_t da_erase_all_store(void) {
 		goto end;
 	}
 
+	ret = _enable_infopage_access();
+	if (0 != ret)
+		goto end;
+
 	_erase_all();
+
+	ret = _disable_infopage_access();
+	if (0 != ret) {
+		debug("failure disable access to infopage");
+		goto end;
+	}
 
 end:
 //	mutex_unlock(&mutex);

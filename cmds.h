@@ -22,6 +22,9 @@ void cmd_write(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_nvwrite(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_nvread(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_ipread(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_ipwrite(BaseSequentialStream *chp, int argc, char *argv[]);
+void cmd_erase_all(BaseSequentialStream *chp, int argc, char *argv[]);
 
 static const ShellCommand commands[] = {
   {"mem", cmd_mem},
@@ -33,6 +36,9 @@ static const ShellCommand commands[] = {
   {"read", cmd_read},
   {"nvwrite", cmd_nvwrite},
   {"nvread", cmd_nvread},
+  {"ipread", cmd_ipread},
+  {"ipwrite", cmd_ipwrite},
+  {"erase_all", cmd_erase_all},
   {NULL, NULL}
 };
 
