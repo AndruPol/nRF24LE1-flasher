@@ -124,10 +124,11 @@ void cmd_test(BaseSequentialStream *chp, int argc, char *argv[]) {
 		chprintf(chp, "Usage: test\r\n");
 		return;
 	}
+	wiring_init();
 	enable_program(1);
 	da_test_show();
 	enable_program(0);
-
+	wiring_destroy();
 }
 
 /*
@@ -141,11 +142,12 @@ void cmd_write(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	wiring_init();
 	enable_program(1);
 	uhet_write(flash_buffer, FLASHSIZE);
 	enable_program(0);
 	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
-
+	wiring_destroy();
 }
 /*
  * cmd read
@@ -158,10 +160,11 @@ void cmd_read(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	memset(flash_buffer, 0x0, FLASHSIZE);
+	wiring_init();
 	enable_program(1);
 	uhet_read(flash_buffer, FLASHSIZE);
 	enable_program(0);
-
+	wiring_destroy();
 }
 
 /*
@@ -175,11 +178,12 @@ void cmd_nvwrite(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	wiring_init();
 	enable_program(1);
 	da_nvm_normal_store(flash_buffer, NVMSIZE);
 	enable_program(0);
+	wiring_destroy();
 	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
-
 }
 /*
  * cmd nvread
@@ -192,10 +196,11 @@ void cmd_nvread(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	memset(flash_buffer, 0x0, FLASHSIZE);
+	wiring_init();
 	enable_program(1);
 	da_nvm_normal_show(flash_buffer);
 	enable_program(0);
-
+	wiring_destroy();
 }
 /*
  * cmd ipread
@@ -208,10 +213,11 @@ void cmd_ipread(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	memset(flash_buffer, 0x0, FLASHSIZE);
+	wiring_init();
 	enable_program(1);
 	da_infopage_show(flash_buffer);
 	enable_program(0);
-
+	wiring_destroy();
 }
 /*
  * cmd ipwrite
@@ -224,11 +230,12 @@ void cmd_ipwrite(BaseSequentialStream *chp, int argc, char *argv[]) {
 	}
 
 	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	wiring_init();
 	enable_program(1);
 	da_infopage_store(flash_buffer, NRF_PAGE_SIZE);
 	enable_program(0);
+	wiring_destroy();
 	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
-
 }
 /*
  * cmd erase_all
@@ -240,8 +247,11 @@ void cmd_erase_all(BaseSequentialStream *chp, int argc, char *argv[]) {
 		return;
 	}
 
+	palSetPad(BOARDLED_GPIO, BOARDLED_RED); // turn on red led
+	wiring_init();
 	enable_program(1);
 	da_erase_all_store();
 	enable_program(0);
-
+	wiring_destroy();
+	palClearPad(BOARDLED_GPIO, BOARDLED_RED); // turn off red led
 }

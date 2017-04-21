@@ -65,13 +65,12 @@ endif
 PROJECT = nrf24le1-flasher
 
 # Imported source files and paths
-CHIBIOS = ../chibios/ChibiOS_2.6.4
-include $(CHIBIOS)/boards/ST_STM32F4_DISCOVERY/board.mk
+CHIBIOS = ../chibios/chibios-2.6.x
+include ST_STM32F4_DISCOVERY/board.mk
 include $(CHIBIOS)/os/hal/platforms/STM32F4xx/platform.mk
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/ports/GCC/ARMCMx/STM32F4xx/port.mk
 include $(CHIBIOS)/os/kernel/kernel.mk
-include $(CHIBIOS)/os/various/fatfs_bindings/fatfs.mk
 
 #include $(CHIBIOS)/test/test.mk
 
@@ -92,6 +91,7 @@ CSRC = $(PORTSRC) \
        crc16.c xmodem.c \
        wiring.c nrf24le1.c \
        cmds.c \
+       usbcfg.c \
        main.c
 
 #       $(CHIBIOS)/os/various/syscalls.c \

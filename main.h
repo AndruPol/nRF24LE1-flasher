@@ -22,7 +22,7 @@ extern char flash_buffer[FLASHSIZE];
 
 extern BinarySemaphore transsem;
 
-#define	CON				SD2			//CONSOLE
+#define	CON				SDU1		//CONSOLE
 #define SD_GPIO			GPIOD
 #define	SD_TX_PIN		5			//PD.05
 #define SD_RX_PIN		6			//PD.06
@@ -34,6 +34,7 @@ extern BinarySemaphore transsem;
 #define SHELL_PRIO		NORMALPRIO
 
 extern Thread   *shelltp;
+extern SerialUSBDriver SDU1;
 
 #ifdef __cplusplus
 }

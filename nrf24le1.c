@@ -658,7 +658,7 @@ ssize_t uhet_read(char* buf, size_t count) {
 	// lendo da flash
 	{
 		uint8_t cmd[3];
-		uint8_t *byte;
+//		uint8_t *byte;
 		uint16_t *addr = (uint16_t *) (cmd + 1);
 		//uint8_t data[count];
 

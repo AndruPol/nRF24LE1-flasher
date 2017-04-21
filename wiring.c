@@ -48,15 +48,14 @@ static void spi_send(uint8_t *tx, size_t size) {
 	spiUnselect(&spip);                /* Slave Select de-assertion.       */
 }
 
+// init all pins & SPI
 void wiring_init(void) {
-
 	/*
 	 * SPI1 I/O pins setup.
 	 */
-/*	palSetPadMode(GPIOA, 5, PAL_MODE_ALTERNATE(5) | PAL_STM32_OSPEED_HIGHEST);	// SCK		PA05 -> P0.5
+	palSetPadMode(GPIOA, 5, PAL_MODE_ALTERNATE(5) | PAL_STM32_OSPEED_HIGHEST);	// SCK		PA05 -> P0.5
 	palSetPadMode(GPIOA, 6, PAL_MODE_ALTERNATE(5));					// MISO		PA06 -> P1.0
 	palSetPadMode(GPIOA, 7, PAL_MODE_ALTERNATE(5) | PAL_STM32_OSPEED_HIGHEST);	// MOSI		PA07 -> P0.7
-*/
 
 	palSetPadMode(GPIOB, WIRING_NRF_PROG_PIN, PAL_MODE_OUTPUT_PUSHPULL);		// PROG		PB04 -> PROG
 	palSetPadMode(GPIOB, WIRING_NRF_RESET_PIN, PAL_MODE_OUTPUT_PUSHPULL);		// RESET	PB05 -> RESET
@@ -67,33 +66,11 @@ void wiring_init(void) {
 	palSetPad(GPIOE, GPIOE_PIN15);
 
 	spiStart(&spip, &spicfg);	      /* Setup transfer parameters.       */
-
-/*	bcm2835_spi_begin();
-    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
-    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
-    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_64);    // 4Mhz clock
-    bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
-    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
-	
-	bcm2835_gpio_fsel(WIRING_NRF_PROG_PIN, BCM2835_GPIO_FSEL_OUTP);	
-	bcm2835_gpio_fsel(WIRING_NRF_RESET_PIN, BCM2835_GPIO_FSEL_OUTP);
-*/
-
 }
 
 uint8_t wiring_write_then_read(uint8_t* out, uint16_t out_len, uint8_t* in, uint16_t in_len) {
-
-//	uint8_t transfer_buf[out_len + in_len];
 	unsigned int ret = 0;
 
-//	memset(transfer_buf, 0, out_len + in_len);
-	
-/*	if (NULL != out) {
-		memcpy(transfer_buf, out, out_len);
-		spi_send(out, out_len);
-		ret += out_len;
-	}
-*/
 	if (NULL != in) {
 		uint16_t n = (out_len >= in_len ? out_len : in_len);
 		uint8_t txbuf[n+out_len];
@@ -104,33 +81,33 @@ uint8_t wiring_write_then_read(uint8_t* out, uint16_t out_len, uint8_t* in, uint
 		spi_exchange(txbuf, rxbuf, n+out_len);
 		if (NULL != in)
 			memcpy(in, rxbuf+out_len, in_len);
-//		ret = out_len+in_len;
 	}
 	else {
 		spi_send(out, out_len);
-//		ret = out_len;
 	}
-//	bcm2835_spi_transfern(transfer_buf, ret);
-
-//	memcpy(in, &transfer_buf[out_len], in_len);
 
 	return ret;
-
 }
 
 void wiring_set_gpio_value(uint8_t pin, uint8_t state) {
-
 	if (state == 0) {
 		palClearPad(GPIOB, pin);
 	}
 	else {
 		palSetPad(GPIOB, pin);
 	}
-
 }
 
+// release all pins
 void wiring_destroy(void) {
-
 	spiStop(&spip);
 
+	palSetPadMode(GPIOA, 5, PAL_MODE_INPUT);	// SCK		PA05 -> P0.5
+	palSetPadMode(GPIOA, 6, PAL_MODE_INPUT);	// MISO		PA06 -> P1.0
+	palSetPadMode(GPIOA, 7, PAL_MODE_INPUT);	// MOSI		PA07 -> P0.7
+
+	palSetPadMode(GPIOE, GPIOE_PIN15, PAL_MODE_INPUT);	// NSS	PE15 -> P1.1
+
+	palSetPadMode(GPIOB, WIRING_NRF_PROG_PIN, PAL_MODE_INPUT);		// PROG		PB04 -> PROG
+	palSetPadMode(GPIOB, WIRING_NRF_RESET_PIN, PAL_MODE_INPUT);		// RESET	PB05 -> RESET
 }
